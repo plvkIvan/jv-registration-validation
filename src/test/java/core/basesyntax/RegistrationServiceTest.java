@@ -1,19 +1,22 @@
 package core.basesyntax;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import core.basesyntax.db.Storage;
 import core.basesyntax.model.User;
 import core.basesyntax.service.RegistrationException;
 import core.basesyntax.service.RegistrationService;
 import core.basesyntax.service.RegistrationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RegistrationServiceTest {
     private RegistrationService registrationService;
 
     @BeforeEach
     public void setUp() {
+        Storage.people.clear();
         registrationService = new RegistrationServiceImpl();
     }
 
@@ -27,6 +30,8 @@ public class RegistrationServiceTest {
         User result = registrationService.register(user);
 
         assertEquals(user, result);
+        assertEquals(user, Storage.people.get(0));
+        assertEquals(1, Storage.people.size());
     }
 
     @Test
@@ -91,6 +96,12 @@ public class RegistrationServiceTest {
 
     @Test
     public void register_loginAlreadyExists_notOk() {
+        User storedUser = new User();
+        storedUser.setLogin("validLogin");
+        storedUser.setPassword("123456");
+        storedUser.setAge(18);
+        Storage.people.add(storedUser);
+
         User user = new User();
         user.setLogin("validLogin");
         user.setPassword("123456");
