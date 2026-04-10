@@ -114,4 +114,76 @@ public class RegistrationServiceTest {
     public void register_nullUser_notOk() {
         assertThrows(RegistrationException.class, () -> registrationService.register(null));
     }
+
+    @Test
+    public void register_emptyPassword_notOk() {
+        User user = new User();
+        user.setLogin("validLogin");
+        user.setPassword("");
+        user.setAge(18);
+
+        assertThrows(RegistrationException.class, () -> registrationService.register(user));
+    }
+
+    @Test
+    public void register_passwordLengthThree_notOk() {
+        User user = new User();
+        user.setLogin("validLogin");
+        user.setPassword("123");
+        user.setAge(18);
+
+        assertThrows(RegistrationException.class, () -> registrationService.register(user));
+    }
+
+    @Test
+    public void register_passwordLengthSix_ok() {
+        User user = new User();
+        user.setLogin("validLogin");
+        user.setPassword("123456");
+        user.setAge(18);
+
+        User result = registrationService.register(user);
+
+        assertEquals(user, result);
+        assertEquals(user, Storage.people.get(0));
+        assertEquals(1, Storage.people.size());
+    }
+
+    @Test
+    public void register_passwordLengthEight_ok() {
+        User user = new User();
+        user.setLogin("validLogin");
+        user.setPassword("12345678");
+        user.setAge(18);
+
+        User result = registrationService.register(user);
+
+        assertEquals(user, result);
+        assertEquals(user, Storage.people.get(0));
+        assertEquals(1, Storage.people.size());
+    }
+
+    @Test
+    public void register_negativeAge_notOk() {
+        User user = new User();
+        user.setLogin("validLogin");
+        user.setPassword("123456");
+        user.setAge(-1);
+
+        assertThrows(RegistrationException.class, () -> registrationService.register(user));
+    }
+
+    @Test
+    public void register_overMinAge_ok() {
+        User user = new User();
+        user.setLogin("validLogin");
+        user.setPassword("123456");
+        user.setAge(19);
+
+        User result = registrationService.register(user);
+
+        assertEquals(user, result);
+        assertEquals(user, Storage.people.get(0));
+        assertEquals(1, Storage.people.size());
+    }
 }
