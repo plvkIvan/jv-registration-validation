@@ -12,12 +12,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class RegistrationServiceTest {
-    private RegistrationService registrationService;
+    private static RegistrationService registrationService = new RegistrationServiceImpl();
 
     @BeforeEach
-    public void setUp() {
+    public void clearStorage() {
         Storage.people.clear();
-        registrationService = new RegistrationServiceImpl();
     }
 
     @Test
