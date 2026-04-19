@@ -30,7 +30,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new RegistrationException("Login can not be null");
         }
 
-        User existingUser  = storageDao.get(user.getLogin());
+        User existingUser = storageDao.get(user.getLogin());
 
         if (existingUser != null) {
             throw new RegistrationException("Such User login already exists");
