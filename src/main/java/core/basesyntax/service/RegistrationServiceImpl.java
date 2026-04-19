@@ -2,6 +2,7 @@ package core.basesyntax.service;
 
 import core.basesyntax.dao.StorageDao;
 import core.basesyntax.dao.StorageDaoImpl;
+import core.basesyntax.exception.RegistrationException;
 import core.basesyntax.model.User;
 
 public class RegistrationServiceImpl implements RegistrationService {
@@ -29,9 +30,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new RegistrationException("Login can not be null");
         }
 
-        User current = storageDao.get(user.getLogin());
+        User existingUser  = storageDao.get(user.getLogin());
 
-        if (current != null) {
+        if (existingUser != null) {
             throw new RegistrationException("Such User login already exists");
         }
 

@@ -8,13 +8,13 @@ import core.basesyntax.model.User;
 import core.basesyntax.service.RegistrationException;
 import core.basesyntax.service.RegistrationService;
 import core.basesyntax.service.RegistrationServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class RegistrationServiceTest {
     private static RegistrationService registrationService = new RegistrationServiceImpl();
 
-    @BeforeEach
+    @AfterEach
     public void clearStorage() {
         Storage.people.clear();
     }
